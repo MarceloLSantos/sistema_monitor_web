@@ -1,0 +1,87 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+    padding: 1rem 0;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f8f9fa;
+    z-index: 1000;
+    border-right: 1px solid #dee2e6;
+    padding: 1rem;
+}
+
+/* Sidebar content */
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hide sidebar on mobile by default */
+@media (max-width: 767.98px) {
+    .sidebar {
+        display: none !important;
+    }
+    .content {
+        margin-left: 0;
+    }
+    .content .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+/* Ensure content doesn't overlap sidebar on desktop */
+@media (min-width: 768px) {
+    .content {
+        margin-left: 250px;
+    }
+    .content .container {
+        padding-left: 30px; /* Extra padding to prevent content overlap */
+        padding-right: 15px;
+    }
+}
+
+/* Navigation link styles */
+.nav-link {
+    transition: all 0.3s ease;
+    padding: 10px 15px;
+}
+
+/* Hover effect: bold text and rounded borders */
+.nav-link:hover {
+    font-weight: bold;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    background-color: #e9ecef;
+}
+
+/* Active link: bold and blue */
+.nav-link.active {
+    font-weight: bold;
+    color: #0d6efd !important;
+}
+
+/* Adjust offcanvas for mobile */
+.offcanvas {
+    width: 250px;
+}
