@@ -85,23 +85,31 @@ class PropostaController {
             $this->clienteModel->update($proposta['id_cliente'], $dataCliente);
 
             $data_habilitacao = $_POST['data_habilitacao'] ?: null;
-            $data_1a = $this->addMonths($data_habilitacao, 1);
-            $data_2a = $this->addMonths($data_habilitacao, 2);
-            $data_3a = $this->addMonths($data_habilitacao, 3);
-            $mes_apuracao = date('n', strtotime($this->addMonths($data_habilitacao, 4)));
+
+            if ($data_habilitacao) {
+                $data_1a = $this->addMonths($data_habilitacao, 1);
+                $data_2a = $this->addMonths($data_habilitacao, 2);
+                $data_3a = $this->addMonths($data_habilitacao, 3);
+                $mes_apuracao = date('n', strtotime($this->addMonths($data_habilitacao, 4)));
+            } else {
+                $data_1a = null;
+                $data_2a = null;
+                $data_3a = null;
+                $mes_apuracao = null;
+            }
 
             $dataFluxo = [
                 'conta_cliente' => $_POST['conta_cliente'],
                 'id_produto' => $_POST['id_produto'],
                 'id_status_cliente' => $_POST['id_status_cliente'],
                 'id_vendedor' => $_POST['id_vendedor'],
-                // 'data_cadastro' => $_POST['data_cadastro'],
+                'data_cadastro' => $_POST['data_cadastro'],
                 'data_habilitacao' => $data_habilitacao,
-                // 'data_1a_fatura' => $data_1a,
+                'data_1a_fatura' => $data_1a,
                 'id_status_1a_fatura' => $_POST['id_status_1a_fatura'],
-                // 'data_2a_fatura' => $data_2a,
+                'data_2a_fatura' => $data_2a,
                 'id_status_2a_fatura' => $_POST['id_status_2a_fatura'],
-                // 'data_3a_fatura' => $data_3a,
+                'data_3a_fatura' => $data_3a,
                 'id_status_3a_fatura' => $_POST['id_status_3a_fatura'],
                 'mes_apuracao' => $mes_apuracao
             ];
