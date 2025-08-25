@@ -28,6 +28,9 @@ class FluxoVendaModel extends BaseModel {
     public function delete($num_proposta) {
         $stmt = $this->pdo->prepare("DELETE FROM fluxo_venda WHERE num_proposta = :num");
         $stmt->execute(['num' => $num_proposta]);
+        if ($stmt->rowCount() === 0) {
+            throw new Exception("Nenhuma proposta encontrada para exclusão.");
+        }
     }
 
     public function getAllForList() {

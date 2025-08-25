@@ -126,21 +126,33 @@ class PropostaController {
 
     public function excluir() {
         $num_proposta = $_GET['num_proposta'] ?? null;
-        $proposta = null;
+        $confirm = $_GET['confirm'] ?? null;
+        $error = null;
+        $success = null;
 
         if ($num_proposta) {
             $proposta = $this->fluxoVendaModel->getByNum($num_proposta);
             if ($proposta) {
-                $this->fluxoVendaModel->delete($num_proposta);
-                $success = "Proposta {$num_proposta} excluída com sucesso!";
+                if ($confirm == '1') {
+                    try {
+                        $this->fluxoVendaModel->delete($num_proposta);
+                        $success = "Proposta {$num_proposta} excluída com sucesso!";
+                    } catch (Exception $e) {
+                        $error = "Erro ao excluir proposta: " . $e->getMessage();
+                    }
+                } else {
+                    // Show confirmation message in the view
+                }
             } else {
                 $error = "Proposta não encontrada.";
             }
+        } else {
+            $error = "Número da proposta não fornecido.";
         }
 
         require 'app/views/excluir_proposta.php';
     }
-
+    
     private function handleMensagens($proposta, $cliente, $post) {
         $num_proposta = $proposta['num_proposta'];
         $nome_cliente = $cliente['nome_cliente'];
