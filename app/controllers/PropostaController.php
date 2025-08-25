@@ -51,7 +51,7 @@ class PropostaController {
                 $success = "Proposta cadastrada com sucesso!";
             }
         }
-        require './app/views/cadastro_proposta.php';
+        require 'app/views/cadastro_proposta.php';
     }
 
     public function atualizar() {
@@ -76,8 +76,8 @@ class PropostaController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $proposta) {
             // Similar validations as above
             $dataCliente = [
-                'nome' => $_POST['nome_cliente'],
-                'cpf' => preg_replace('/\D/', '', $_POST['cpf_cliente']),
+                // 'nome' => $_POST['nome_cliente'],
+                // 'cpf' => preg_replace('/\D/', '', $_POST['cpf_cliente']),
                 'contato1' => preg_replace('/\D/', '', $_POST['contato1']),
                 'contato2' => preg_replace('/\D/', '', $_POST['contato2']),
                 'email' => $_POST['email']
@@ -95,13 +95,13 @@ class PropostaController {
                 'id_produto' => $_POST['id_produto'],
                 'id_status_cliente' => $_POST['id_status_cliente'],
                 'id_vendedor' => $_POST['id_vendedor'],
-                'data_cadastro' => $_POST['data_cadastro'],
+                // 'data_cadastro' => $_POST['data_cadastro'],
                 'data_habilitacao' => $data_habilitacao,
-                'data_1a_fatura' => $data_1a,
+                // 'data_1a_fatura' => $data_1a,
                 'id_status_1a_fatura' => $_POST['id_status_1a_fatura'],
-                'data_2a_fatura' => $data_2a,
+                // 'data_2a_fatura' => $data_2a,
                 'id_status_2a_fatura' => $_POST['id_status_2a_fatura'],
-                'data_3a_fatura' => $data_3a,
+                // 'data_3a_fatura' => $data_3a,
                 'id_status_3a_fatura' => $_POST['id_status_3a_fatura'],
                 'mes_apuracao' => $mes_apuracao
             ];
@@ -113,7 +113,24 @@ class PropostaController {
             $success = "Proposta atualizada com sucesso!";
         }
 
-        require './app/views/atualizar_proposta.php';
+        require 'app/views/atualizar_proposta.php';
+    }
+
+    public function excluir() {
+        $num_proposta = $_GET['num_proposta'] ?? null;
+        $proposta = null;
+
+        if ($num_proposta) {
+            $proposta = $this->fluxoVendaModel->getByNum($num_proposta);
+            if ($proposta) {
+                $this->fluxoVendaModel->delete($num_proposta);
+                $success = "Proposta {$num_proposta} excluída com sucesso!";
+            } else {
+                $error = "Proposta não encontrada.";
+            }
+        }
+
+        require 'app/views/excluir_proposta.php';
     }
 
     private function handleMensagens($proposta, $cliente, $post) {
@@ -122,7 +139,7 @@ class PropostaController {
         $contato1 = $cliente['contato1_cliente'];
         $descricao_produto = (new ProdutoModel())->getById($post['id_produto'])['descricao_produto'];  // Assume getById added
         $descricao_status_cliente = $post['descricao_status_cliente'];  // Add to form
-        $data_1a_fatura = $post['data_1a_fatura'];
+        // $data_1a_fatura = $post['data_1a_fatura'];
         $status_1a = $post['id_status_1a_fatura'];  // Map to desc if needed
         // Similar for 2a, 3a
 
@@ -149,7 +166,7 @@ class PropostaController {
 
     public function listar() {
         $propostas = $this->fluxoVendaModel->getAllForList();
-        require './app/views/listar_propostas.php';
+        require 'app/views/listar_propostas.php';
     }
 
     private function addMonths($date, $months) {

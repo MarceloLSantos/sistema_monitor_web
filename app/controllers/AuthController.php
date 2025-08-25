@@ -16,7 +16,7 @@ class AuthController {
                 session_start();
                 $_SESSION['logged_in'] = true;
                 $_SESSION['user_id'] = $user['id_usuario'];
-                header('Location: index.php?page=cadastro_proposta');
+                header('Location: index.php?page=listar_propostas');
                 exit;
             } else {
                 $error = "Email ou senha inválidos";

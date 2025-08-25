@@ -1,8 +1,8 @@
-<?php include './app/views/layouts/main.php'; ?>
-<div class="container-fluid mt-4">
-    <h2 class="text-center mb-4">Lista de Propostas</h2>
-    <div class="table-responsive">
-        <table class="table table-striped small">
+<?php include 'app/views/layouts/main.php'; ?>
+<div class="container-fluid my-4">
+    <h4 class="container border rounded text-center mb-4 fw-bold bg-dark bg-opacity-10 text-dark text-opacity-50">PROPOSTAS</h4>
+    <div class="table-responsive border rounded px-1" style="overflow-y: auto;">
+        <table class="table table-striped small text-center" style="font-size: 0.75rem; table-layout: fixed; width: 100%;">
             <thead>
                 <tr>
                     <th>CLIENTE</th>
@@ -74,7 +74,7 @@
                     <tr>
                         <td><?php echo $row['nome_cliente']; ?></td>
                         <td><?php echo $row['conta_cliente'] ?: ''; ?></td>
-                        <td><?php echo $row['num_proposta']; ?></td>
+                        <td><a href="index.php?page=atualizar_proposta&num_proposta=<?php echo $row['num_proposta']; ?>"><?php echo $row['num_proposta']; ?></a></td>
                         <td><?php echo $row['nome_vendedor']; ?></td>
                         <td><?php echo $row['descricao_produto']; ?></td>
                         <td><?php echo $row['descricao_status_cliente']; ?></td>
@@ -92,4 +92,15 @@
         </table>
     </div>
 </div>
-<?php include './app/views/layouts/footer.php'; ?>
+<script>
+    // Mostrar largura total da tabela e da tela no console
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.querySelector('table');
+        const tableWidth = table.offsetWidth;
+        const screenWidth = window.innerWidth;
+        // alert('Largura da tabela: ' + tableWidth + ' px\nLargura da tela: ' + screenWidth + ' px');
+    });
+</script>
+
+
+<?php include 'app/views/layouts/footer.php'; ?>

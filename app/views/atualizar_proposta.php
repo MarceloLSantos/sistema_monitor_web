@@ -1,8 +1,9 @@
-<?php include './app/views/layouts/main.php'; ?>
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Atualizar Proposta</h2>
+<?php include 'app/views/layouts/main.php'; ?>
+<div class="container my-4">
+    <h4 class="container border rounded text-center mb-4 fw-bold bg-dark bg-opacity-10 text-dark text-opacity-50">ATUALIZAR PROPOSTA</h4>
+    <!-- <h3 class="text-center mb-4 fw-bold text-dark text-opacity-50">ATUALIZAR PROPOSTA</h3> -->
     <?php if ($_GET['page'] == 'atualizar_proposta' && (!$num_proposta || !$proposta)): ?>
-    <form method="get" class="mt-3">
+    <form method="get" class="mt-3 border rounded p-3">
         <input type="hidden" name="page" value="atualizar_proposta">
         <div class="mb-3">
             <!-- <label for="num_proposta" class="form-label"><strong>DIGITE O NÚMERO DA PROPOSTA</strong></label> -->
@@ -14,11 +15,11 @@
     <?php endif; ?>
 
     <?php if (!$num_proposta): ?>
-        <div class="alert alert-info">Digite o número da proposta.</div>
+        <div class="alert alert-info mt-3">Digite o número da proposta.</div>
     <?php elseif (!$proposta): ?>
         <div class="alert alert-danger">Proposta não encontrada.</div>
     <?php else: ?>
-        <form method="post" class="needs-validation" novalidate>
+        <form method="post" class="needs-validation border rounded p-4" novalidate>
             <div class="row g-3">
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -32,7 +33,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="cpf_cliente" class="form-label"><strong>CPF DO CLIENTE</strong></label>
-                        <input type="text" class="form-control" id="cpf_cliente" name="cpf_cliente" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" value="<?php echo $cliente['cpf_cliente']; ?>" disabled>
+                        <input type="text" class="form-control" id="cpf_cliente" name="cpf_cliente" value="<?php echo $cliente['cpf_cliente']; ?>" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="nome_vendedor" class="form-label"><strong>NOME VENDEDOR</strong></label>
@@ -139,7 +140,8 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Atualizar</button>
+            <button type="submit" class="btn btn-primary mt-3" style="width: 150px;">ATUALIZAR</button>
+            <button type="button" class="btn btn-primary mt-3" style="width: 150px;" onclick="javascript: location.href='index.php?page=excluir_proposta&num_proposta=1234564'">EXCLUIR</button>
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger mt-3"><?php echo $error; ?></div>
             <?php endif; ?>
@@ -165,4 +167,4 @@
     });
 })();
 </script>
-<?php include './app/views/layouts/footer.php'; ?>
+<?php include 'app/views/layouts/footer.php'; ?>

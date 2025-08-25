@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('input', () => {
             let value = input.value.replace(/\D/g, '');
             if (value.length > 11) value = value.slice(0, 11);
-            value = value.replace(/(\d{2})(\d)/, '($1) $2')
-                         .replace(/(\d{5})(\d)/, '$1-$2');
+            // value = value.replace(/(\d{2})(\d)/, '($1) $2')
+            //              .replace(/(\d{5})(\d)/, '$1-$2');
             input.value = value;
         });
     });

@@ -1,7 +1,8 @@
-<?php include './app/views/layouts/main.php'; ?>
+<?php include 'app/views/layouts/main.php'; ?>
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Cadastro de Proposta</h2>
-    <form method="post" class="needs-validation" novalidate>
+    <h4 class="container border rounded text-center mb-4 fw-bold bg-dark bg-opacity-10 text-dark text-opacity-50">CADASTRAR NOVA PROPOSTA</h4>
+    <!-- <h3 class="text-center mb-4 fw-bold text-dark text-opacity-50">CADASTRAR NOVA PROPOSTA</h3> -->
+    <form method="post" class="needs-validation border rounded p-4" novalidate>
         <div class="row g-3">
             <div class="col-md-6">
                 <div class="mb-3">
@@ -98,4 +99,4 @@
     });
 })();
 </script>
-<?php include './app/views/layouts/footer.php'; ?>
+<?php include 'app/views/layouts/footer.php'; ?>

@@ -19,7 +19,7 @@ footer {
 
 /* Sidebar styles */
 .sidebar {
-    width: 250px;
+    width: 230px;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -83,5 +83,5 @@ footer {
 
 /* Adjust offcanvas for mobile */
 .offcanvas {
-    width: 250px;
+    width: 230px;
 }
