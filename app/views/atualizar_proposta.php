@@ -141,7 +141,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary mt-3" style="width: 150px;">ATUALIZAR</button>
-            <button type="button" class="btn btn-primary mt-3" style="width: 150px;" onclick="javascript: location.href='index.php?page=excluir_proposta&num_proposta=1234564'">EXCLUIR</button>
+            <button type="button" class="btn btn-primary mt-3" style="width: 150px;" onclick="javascript: location.href='index.php?page=excluir_proposta&num_proposta=<?php echo $num_proposta; ?>&confirm=1'">EXCLUIR</button>
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger mt-3"><?php echo $error; ?></div>
             <?php endif; ?>

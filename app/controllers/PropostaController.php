@@ -126,14 +126,14 @@ class PropostaController {
 
     public function excluir() {
         $num_proposta = $_GET['num_proposta'] ?? null;
-        $confirm = $_GET['confirm'] ?? null;
+        $confirm = $_GET['confirm'] ?? 0;
         $error = null;
         $success = null;
 
         if ($num_proposta) {
             $proposta = $this->fluxoVendaModel->getByNum($num_proposta);
             if ($proposta) {
-                if ($confirm == '1') {
+                if ($confirm == 1) {
                     try {
                         $this->fluxoVendaModel->delete($num_proposta);
                         $success = "Proposta {$num_proposta} excluída com sucesso!";
