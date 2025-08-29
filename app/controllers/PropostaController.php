@@ -103,7 +103,6 @@ class PropostaController {
                 'id_produto' => $_POST['id_produto'],
                 'id_status_cliente' => $_POST['id_status_cliente'],
                 'id_vendedor' => $_POST['id_vendedor'],
-                'data_cadastro' => $_POST['data_cadastro'],
                 'data_habilitacao' => $data_habilitacao,
                 'data_1a_fatura' => $data_1a,
                 'id_status_1a_fatura' => $_POST['id_status_1a_fatura'],
@@ -118,6 +117,8 @@ class PropostaController {
             // Mensagens logic (similar to Python)
             $this->handleMensagens($proposta, $cliente, $_POST);
 
+            header("Location: index.php?page=atualizar_proposta&num_proposta={$num_proposta}");
+            exit; // or die();
             $success = "Proposta atualizada com sucesso!";
         }
 

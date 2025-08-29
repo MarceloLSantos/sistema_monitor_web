@@ -19,7 +19,7 @@ class FluxoVendaModel extends BaseModel {
     }
 
     public function update($num_proposta, $data) {
-        $stmt = $this->pdo->prepare("UPDATE fluxo_venda SET conta_cliente = :conta_cliente, id_produto = :id_produto, id_status_cliente = :id_status_cliente, id_vendedor = :id_vendedor, data_cadastro = :data_cadastro, data_habilitacao = :data_habilitacao, data_1a_fatura = :data_1a_fatura, id_status_1a_fatura = :id_status_1a_fatura, data_2a_fatura = :data_2a_fatura, id_status_2a_fatura = :id_status_2a_fatura, data_3a_fatura = :data_3a_fatura, id_status_3a_fatura = :id_status_3a_fatura, mes_apuracao = :mes_apuracao WHERE num_proposta = :num_proposta");
+        $stmt = $this->pdo->prepare("UPDATE fluxo_venda SET conta_cliente = :conta_cliente, id_produto = :id_produto, id_status_cliente = :id_status_cliente, id_vendedor = :id_vendedor, data_habilitacao = :data_habilitacao, data_1a_fatura = :data_1a_fatura, id_status_1a_fatura = :id_status_1a_fatura, data_2a_fatura = :data_2a_fatura, id_status_2a_fatura = :id_status_2a_fatura, data_3a_fatura = :data_3a_fatura, id_status_3a_fatura = :id_status_3a_fatura, mes_apuracao = :mes_apuracao WHERE num_proposta = :num_proposta");
         // $stmt = $this->pdo->prepare("UPDATE fluxo_venda SET conta_cliente = :conta_cliente, id_produto = :id_produto, id_status_cliente = :id_status_cliente, id_vendedor = :id_vendedor, data_habilitacao = :data_habilitacao, id_status_1a_fatura = :id_status_1a_fatura, id_status_2a_fatura = :id_status_2a_fatura, id_status_3a_fatura = :id_status_3a_fatura, mes_apuracao = :mes_apuracao WHERE num_proposta = :num_proposta");
         $data['num_proposta'] = $num_proposta;
         $stmt->execute($data);

@@ -79,7 +79,7 @@
                         <td><?php echo $row['descricao_produto']; ?></td>
                         <td><?php echo $row['descricao_status_cliente']; ?></td>
                         <td><?php echo $row['data_habilitacao'] ? date('d/m/Y', strtotime($row['data_habilitacao'])) : ''; ?></td>
-                        <td style="<?php echo $data_1a_style; ?>"><?php echo $row['data_1a_fatura'] ? date('d/m/Y', strtotime($row['data_1a_fatura'])) : ''; ?></td>
+                        <td style="<?php echo $data_1a_style; ?>"><a href="<?php echo (strpos($data_1a_style, 'red') > 0 ? './libs/wa.php?telefone=5511993621054&mensagem=teste' : '#'); ?>" target="_blank"><?php echo $row['data_1a_fatura'] ? date('d/m/Y', strtotime($row['data_1a_fatura'])) : ''; ?></a></td>
                         <td><?php echo $row['status_1a_fatura']; ?></td>
                         <td style="<?php echo $data_2a_style; ?>"><?php echo $row['data_2a_fatura'] ? date('d/m/Y', strtotime($row['data_2a_fatura'])) : ''; ?></td>
                         <td><?php echo $row['status_2a_fatura']; ?></td>
