@@ -115,11 +115,12 @@ class PropostaController {
             $this->fluxoVendaModel->update($num_proposta, $dataFluxo);
 
             // Mensagens logic (similar to Python)
-            $this->handleMensagens($proposta, $cliente, $_POST);
+            // $this->handleMensagens($proposta, $cliente, $_POST);
 
-            header("Location: index.php?page=atualizar_proposta&num_proposta={$num_proposta}");
-            exit; // or die();
             $success = "Proposta atualizada com sucesso!";
+
+            header("Location: index.php?page=atualizar_proposta&num_proposta={$num_proposta}&success=" . urlencode($success));
+            exit; // or die();
         }
 
         require 'app/views/atualizar_proposta.php';
@@ -154,34 +155,33 @@ class PropostaController {
         require 'app/views/excluir_proposta.php';
     }
     
-    private function handleMensagens($proposta, $cliente, $post) {
+    public function handleMensagens($proposta, $cliente, $post) {
         $num_proposta = $proposta['num_proposta'];
         $nome_cliente = $cliente['nome_cliente'];
         $contato1 = $cliente['contato1_cliente'];
-        $descricao_produto = (new ProdutoModel())->getById($post['id_produto'])['descricao_produto'];  // Assume getById added
-        $descricao_status_cliente = $post['descricao_status_cliente'];  // Add to form
-        // $data_1a_fatura = $post['data_1a_fatura'];
-        $status_1a = $post['id_status_1a_fatura'];  // Map to desc if needed
-        // Similar for 2a, 3a
+        $statusClientes = $this->statusClienteModel->getAll();
+        $descricao_produto = (new ProdutoModel())->getById((int)$post['id_produto'])['descricao_produto'];  // Assume getById added
+        $descricao_status_cliente = $statusClientes[(int)$post['id_status_cliente'] - 1]['descricao_status_cliente'];
+        $status_1a = (int)$post['id_status_1a_fatura'];  // Map to desc if needed
 
         if ($contato1) {
-            $telefone = "+55" . $contato1;
+            $telefone = "55" . $contato1;
             $today = date('Y-m-d');
 
             // Example for "HABILITADO"
             if ($descricao_status_cliente == 'HABILITADO' && !$this->historicoModel->checkEnviada($num_proposta, 'HABILITADO')) {
                 $mensagem = "Seja muito bem-vindo, {$nome_cliente}. Agora que sua instalação foi realizada esperamos que você aproveite todas as vantagens que só a nossa {$descricao_produto} pode oferecer.";
-                $result = wa_send($telefone, $mensagem);  // Placeholder function from libs/wa.php
-                if ($result === true) {
-                    $this->historicoModel->registrar([
+                $result = $this->historicoModel->registrar([
                         'num_proposta' => $num_proposta,
-                        'tipo_mensagem' => 'HABILITADO',
+                        'tipo_mensagem' => $tipo_mensagem, //'HABILITADO',
                         'contato_destino' => $telefone,
                         'mensagem' => $mensagem
-                    ]);
-                }
+                ]);
+            } else {
+                $result = 0;
             }
             // Add other conditions similarly...
+            return $result ? $mensagem : $result; // Return last message for testing/logging
         }
     }
 

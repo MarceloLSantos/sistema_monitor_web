@@ -15,7 +15,7 @@ require 'app/models/ProdutoModel.php';
 require 'app/models/UsuarioModel.php';
 require 'app/controllers/AuthController.php';
 require 'app/controllers/PropostaController.php';
-require 'libs/wa.php';  // WhatsApp library (placeholder)
+// require 'libs/wa.php';  // WhatsApp library (placeholder)
 // Require other models and controllers as needed
 
 $page = $_GET['page'] ?? 'listar_propostas';

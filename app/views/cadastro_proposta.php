@@ -1,6 +1,6 @@
 <?php include 'app/views/layouts/main.php'; ?>
-<div class="container mt-4">
-    <h4 class="container border rounded text-center mb-4 fw-bold bg-dark bg-opacity-10 text-dark text-opacity-50">CADASTRAR NOVA PROPOSTA</h4>
+<div class="container-fluid mt-4">
+    <h4 class="container-fluid border rounded text-center mb-4 fw-bold bg-dark bg-opacity-10 text-dark text-opacity-50">CADASTRAR NOVA PROPOSTA</h4>
     <!-- <h3 class="text-center mb-4 fw-bold text-dark text-opacity-50">CADASTRAR NOVA PROPOSTA</h3> -->
     <form method="post" class="needs-validation border rounded p-4" novalidate>
         <div class="row g-3">

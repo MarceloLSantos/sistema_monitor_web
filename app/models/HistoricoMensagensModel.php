@@ -10,6 +10,7 @@ class HistoricoMensagensModel extends BaseModel {
     public function registrar($data) {
         $stmt = $this->pdo->prepare("INSERT INTO historico_mensagens (num_proposta, tipo_mensagem, data_envio, contato_destino, mensagem) VALUES (:num_proposta, :tipo_mensagem, CURDATE(), :contato_destino, :mensagem)");
         $stmt->execute($data);
+        return $this->pdo->lastInsertId();
     }
 }
 ?>
