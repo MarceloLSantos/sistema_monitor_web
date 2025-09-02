@@ -1,6 +1,6 @@
 <!-- ### app/views/login.php -->
 <?php include 'layouts/main.php'; ?>
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <h3 class="text-center fw-bold text-dark text-opacity-50">LOGIN</h3>
     <form method="post" class="w-50 mx-auto">
         <div class="mb-3">
