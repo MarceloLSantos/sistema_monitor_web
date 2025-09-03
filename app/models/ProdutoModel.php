@@ -33,4 +33,11 @@ class StatusFaturaModel extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+
+class TipoStatusFaturaModel extends BaseModel {
+    public function getAll($id) {
+        $stmt = $this->pdo->query("SELECT id_tipo_status_fatura, descricao_tipo_status_fatura FROM tipo_status_fatura WHERE id_tipo_status_fatura = $id");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
 ?>

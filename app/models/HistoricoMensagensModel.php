@@ -12,5 +12,11 @@ class HistoricoMensagensModel extends BaseModel {
         $stmt->execute($data);
         return $this->pdo->lastInsertId();
     }
+
+    public function getMessageById($id_mensagem) {
+        $stmt = $this->pdo->prepare("SELECT * FROM mensagem WHERE id_mensagem = :id");
+        $stmt->execute(['id' => $id_mensagem]);
+        return $stmt->fetch();
+    }
 }
 ?>

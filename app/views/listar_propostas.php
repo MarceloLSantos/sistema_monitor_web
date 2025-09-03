@@ -27,21 +27,13 @@
                 foreach ($propostas as $row):
                     $data_1a_style = '';
                     if ($row['data_1a_fatura']) {
-                        // Lógica para colorir a célula da 1a fatura
-                        // Se status for PAGO -> azul
-                        // Se mensagem enviada -> verde
-                        // Se passou 5 dias para 1a fatura e status for PENDENTE -> vermelho e negrito
-                        // Senão -> amarelo
-                        
-                        $enviada_antecipada = $historicoModel->checkEnviada($row['num_proposta'], 'FATURA_1_ANTECIPADA');
-                        $enviada_pendente = $historicoModel->checkEnviada($row['num_proposta'], 'FATURA_1_PENDENTE');
-                        $enviada = $historicoModel->checkEnviada($row['num_proposta'], 'FATURA_1_PENDENTE');
+                        $enviada = $historicoModel->checkEnviada($row['num_proposta'], 'STATUS_1_FATURA');
                         $days_diff = (strtotime(date('Y-m-d')) - strtotime($row['data_1a_fatura'])) / (60 * 60 * 24);
                         if ($enviada) {
                             $data_1a_style = 'background-color: green; color: white; font-weight: bold;';
                         } elseif ($row['status_1a_fatura'] == 'PAGO') {
                             $data_1a_style = 'background-color: blue; color: white; font-weight: bold;';
-                        } elseif (abs($days_diff - 6) <= 1 && $row['status_1a_fatura'] == 'PENDENTE') {
+                        } elseif ($days_diff >= 5 && $row['status_1a_fatura'] == 'PENDENTE') {
                             $data_1a_style = 'background-color: red; color: white; font-weight: bold;';
                         } else {
                             $data_1a_style = 'background-color: yellow; color: black; font-weight: bold;';
@@ -49,7 +41,7 @@
                     }
                     $data_2a_style = '';
                     if ($row['data_2a_fatura']) {
-                        $enviada = $historicoModel->checkEnviada($row['num_proposta'], 'FATURA_2_PENDENTE');
+                        $enviada = $historicoModel->checkEnviada($row['num_proposta'], 'STATUS_2_FATURA');
                         $days_diff = (strtotime(date('Y-m-d')) - strtotime($row['data_2a_fatura'])) / (60 * 60 * 24);
                         if ($enviada) {
                             $data_2a_style = 'background-color: green; color: white; font-weight: bold;';
@@ -63,7 +55,7 @@
                     }
                     $data_3a_style = '';
                     if ($row['data_3a_fatura']) {
-                        $enviada = $historicoModel->checkEnviada($row['num_proposta'], 'FATURA_3_PENDENTE');
+                        $enviada = $historicoModel->checkEnviada($row['num_proposta'], 'STATUS_3_FATURA');
                         $days_diff = (strtotime(date('Y-m-d')) - strtotime($row['data_3a_fatura'])) / (60 * 60 * 24);
                         if ($enviada) {
                             $data_3a_style = 'background-color: green; color: white; font-weight: bold;';
@@ -88,7 +80,7 @@
                         <td><?php echo $row['data_habilitacao'] ? date('d/m/Y', strtotime($row['data_habilitacao'])) : ''; ?></td>
                         <td style="<?php echo $data_1a_style; ?>">
                             <?php if (strpos($data_1a_style, 'red') > 0) { ?>
-                            <a href="./libs/wa.php?num_proposta=<?php echo $row['num_proposta']; ?>" target="_blank" style="<?php echo $data_1a_style; ?>">
+                            <a href="./libs/wa.php?num_proposta=<?php echo $row['num_proposta']; ?>&id_tipo_status_fatura=1" target="_blank" style="<?php echo $data_1a_style; ?>">
                             <?php } ?>
                                 <?php echo $row['data_1a_fatura'] ? date('d/m/Y', strtotime($row['data_1a_fatura'])) : ''; ?>
                             <?php if (strpos($data_1a_style, 'red') > 0) { ?>
@@ -98,7 +90,7 @@
                         <td><?php echo $row['status_1a_fatura']; ?></td>
                         <td style="<?php echo $data_2a_style; ?>">
                             <?php if (strpos($data_2a_style, 'red') > 0) { ?>
-                            <a href="./libs/wa.php?num_proposta=<?php echo $row['num_proposta']; ?>" target="_blank" style="<?php echo $data_2a_style; ?>">
+                            <a href="./libs/wa.php?num_proposta=<?php echo $row['num_proposta']; ?>&id_tipo_status_fatura=2" target="_blank" style="<?php echo $data_2a_style; ?>">
                             <?php } ?>
                                 <?php echo $row['data_2a_fatura'] ? date('d/m/Y', strtotime($row['data_2a_fatura'])) : ''; ?>
                             <?php if (strpos($data_2a_style, 'red') > 0) { ?>
@@ -108,7 +100,7 @@
                         <td><?php echo $row['status_2a_fatura']; ?></td>
                         <td style="<?php echo $data_3a_style; ?>">
                             <?php if (strpos($data_3a_style, 'red') > 0) { ?>
-                            <a href="./libs/wa.php?num_proposta=<?php echo $row['num_proposta']; ?>" target="_blank" style="<?php echo $data_3a_style; ?>">
+                            <a href="./libs/wa.php?num_proposta=<?php echo $row['num_proposta']; ?>&id_tipo_status_fatura=3" target="_blank" style="<?php echo $data_3a_style; ?>">
                             <?php } ?>
                                 <?php echo $row['data_3a_fatura'] ? date('d/m/Y', strtotime($row['data_3a_fatura'])) : ''; ?>
                             <?php if (strpos($data_3a_style, 'red') > 0) { ?>

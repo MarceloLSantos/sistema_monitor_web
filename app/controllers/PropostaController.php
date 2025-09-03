@@ -162,26 +162,37 @@ class PropostaController {
         $statusClientes = $this->statusClienteModel->getAll();
         $descricao_produto = (new ProdutoModel())->getById((int)$post['id_produto'])['descricao_produto'];  // Assume getById added
         $descricao_status_cliente = $statusClientes[(int)$post['id_status_cliente'] - 1]['descricao_status_cliente'];
-        $status_1a = (int)$post['id_status_1a_fatura'];  // Map to desc if needed
+        
+        $id_tipo_status_fatura = $post['id_tipo_status_fatura'];
+        $status_1a = (int)$post['id_status_' . $id_tipo_status_fatura . 'a_fatura'] + 1 > 1 ? 2 : 1;  // Map to desc if needed
+        $data_fatura = date('d/m/Y', strtotime($post['data_' . $id_tipo_status_fatura . 'a_fatura']));
+        $tipo_status_fatura = (new TipoStatusFaturaModel())->getAll((int)$post['id_status_' . $id_tipo_status_fatura . 'a_fatura']);
+        $tipo_mensagem = $tipo_status_fatura[0]['descricao_tipo_status_fatura'];
+        
+        echo (int)$post['id_status_' . $id_tipo_status_fatura . 'a_fatura'];
+        die();
 
         if ($contato1) {
             $telefone = "55" . $contato1;
             $today = date('Y-m-d');
 
             // Example for "HABILITADO"
-            if ($descricao_status_cliente == 'HABILITADO' && !$this->historicoModel->checkEnviada($num_proposta, 'HABILITADO')) {
-                $mensagem = "Seja muito bem-vindo, {$nome_cliente}. Agora que sua instalação foi realizada esperamos que você aproveite todas as vantagens que só a nossa {$descricao_produto} pode oferecer.";
-                $result = $this->historicoModel->registrar([
-                        'num_proposta' => $num_proposta,
-                        'tipo_mensagem' => $tipo_mensagem, //'HABILITADO',
-                        'contato_destino' => $telefone,
-                        'mensagem' => $mensagem
+            if ($descricao_status_cliente == 'HABILITADO' && !$this->historicoModel->checkEnviada($num_proposta, $tipo_mensagem)) {
+                $mensagem = (new HistoricoMensagensModel())->getMessageById($status_1a)['descricao_mensagem']; // Assuming ID 1 is the template for HABILITADO
+                $mensagem = str_replace('<$cliente>', $nome_cliente, $mensagem);
+                $mensagem = str_replace('<$vencimento_fatura>', $data_fatura, $mensagem);
+                $mensagem = str_replace('<$produto>', $descricao_produto, $mensagem);
+                $this->historicoModel->registrar([
+                    'num_proposta' => $num_proposta,
+                    'tipo_mensagem' => $tipo_mensagem,
+                    'contato_destino' => $telefone,
+                    'mensagem' => $mensagem
                 ]);
             } else {
-                $result = 0;
+                $mensagem = '';
             }
             // Add other conditions similarly...
-            return $result ? $mensagem : $result; // Return last message for testing/logging
+            return $mensagem; // Return last message for testing/logging
         }
     }
 
