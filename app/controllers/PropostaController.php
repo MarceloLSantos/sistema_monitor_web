@@ -119,7 +119,12 @@ class PropostaController {
 
             $success = "Proposta atualizada com sucesso!";
 
-            header("Location: index.php?page=atualizar_proposta&num_proposta={$num_proposta}&success=" . urlencode($success));
+            $id_tipo_status_fatura = 5;
+            $tipo_status_fatura = (new TipoStatusFaturaModel())->getAll($id_tipo_status_fatura);
+            $tipo_mensagem = $tipo_status_fatura[0]['descricao_tipo_status_fatura'];
+            $mensagem_enviada = $this->historicoModel->checkEnviada($num_proposta, $tipo_mensagem);
+
+            header("Location: index.php?page=atualizar_proposta&num_proposta={$num_proposta}&success=" . urlencode($success) . "&mensagem_enviada={$mensagem_enviada}");
             exit; // or die();
         }
 
@@ -161,38 +166,48 @@ class PropostaController {
         $contato1 = $cliente['contato1_cliente'];
         $statusClientes = $this->statusClienteModel->getAll();
         $descricao_produto = (new ProdutoModel())->getById((int)$post['id_produto'])['descricao_produto'];  // Assume getById added
-        $descricao_status_cliente = $statusClientes[(int)$post['id_status_cliente'] - 1]['descricao_status_cliente'];
-        
+        // $descricao_status_cliente = $statusClientes[(int)$post['id_status_cliente'] - 1]['descricao_status_cliente'];
+        $id_status_cliente = $post['id_status_cliente'];
         $id_tipo_status_fatura = $post['id_tipo_status_fatura'];
-        $status_1a = (int)$post['id_status_' . $id_tipo_status_fatura . 'a_fatura'] + 1 > 1 ? 2 : 1;  // Map to desc if needed
-        $data_fatura = date('d/m/Y', strtotime($post['data_' . $id_tipo_status_fatura . 'a_fatura']));
-        $tipo_status_fatura = (new TipoStatusFaturaModel())->getAll((int)$post['id_status_' . $id_tipo_status_fatura . 'a_fatura']);
+        $tipo_status_fatura = (new TipoStatusFaturaModel())->getAll($id_tipo_status_fatura);
         $tipo_mensagem = $tipo_status_fatura[0]['descricao_tipo_status_fatura'];
+        $mensagem_enviada = $this->historicoModel->checkEnviada($num_proposta, $tipo_mensagem);
         
-        echo (int)$post['id_status_' . $id_tipo_status_fatura . 'a_fatura'];
-        die();
-
         if ($contato1) {
             $telefone = "55" . $contato1;
             $today = date('Y-m-d');
 
-            // Example for "HABILITADO"
-            if ($descricao_status_cliente == 'HABILITADO' && !$this->historicoModel->checkEnviada($num_proposta, $tipo_mensagem)) {
-                $mensagem = (new HistoricoMensagensModel())->getMessageById($status_1a)['descricao_mensagem']; // Assuming ID 1 is the template for HABILITADO
-                $mensagem = str_replace('<$cliente>', $nome_cliente, $mensagem);
-                $mensagem = str_replace('<$vencimento_fatura>', $data_fatura, $mensagem);
-                $mensagem = str_replace('<$produto>', $descricao_produto, $mensagem);
-                $this->historicoModel->registrar([
-                    'num_proposta' => $num_proposta,
-                    'tipo_mensagem' => $tipo_mensagem,
-                    'contato_destino' => $telefone,
-                    'mensagem' => $mensagem
-                ]);
+            if (!$mensagem_enviada) {
+                if ($id_status_cliente == 3) {
+                    $status_1a = (int)$post['id_status_' . $id_tipo_status_fatura . 'a_fatura'] + 1 > 1 ? 2 : 1;  // Map to desc if needed
+                    $data_fatura = date('d/m/Y', strtotime($post['data_' . $id_tipo_status_fatura . 'a_fatura']));
+                    $mensagem = (new HistoricoMensagensModel())->getMessageById($status_1a)['descricao_mensagem']; // Assuming ID 1 is the template for HABILITADO
+                    $mensagem = str_replace('<$cliente>', $nome_cliente, $mensagem);
+                    $mensagem = str_replace('<$vencimento_fatura>', $data_fatura, $mensagem);
+                    $mensagem = str_replace('<$produto>', $descricao_produto, $mensagem);
+                    $this->historicoModel->registrar([
+                        'num_proposta' => $num_proposta,
+                        'tipo_mensagem' => $tipo_mensagem,
+                        'contato_destino' => $telefone,
+                        'mensagem' => $mensagem
+                    ]);
+                }
+                elseif ($id_status_cliente > 0) {
+                    $mensagem = (new HistoricoMensagensModel())->getMessageById($id_status_cliente)['descricao_mensagem'];
+                    $mensagem = str_replace('<$cliente>', $nome_cliente, $mensagem);
+                    $mensagem = str_replace('<$produto>', $descricao_produto, $mensagem);
+                    $this->historicoModel->registrar([
+                        'num_proposta' => $num_proposta,
+                        'tipo_mensagem' => $tipo_mensagem,
+                        'contato_destino' => $telefone,
+                        'mensagem' => $mensagem
+                    ]);
+                }
             } else {
                 $mensagem = '';
             }
-            // Add other conditions similarly...
-            return $mensagem; // Return last message for testing/logging
+
+            return $mensagem;
         }
     }
 

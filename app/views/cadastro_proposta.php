@@ -74,12 +74,17 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-3" style="width: 150px;">Cadastrar</button>
+        </div>
         <?php if (isset($error)): ?>
             <div class="alert alert-danger mt-3"><?php echo $error; ?></div>
         <?php endif; ?>
         <?php if (isset($success)): ?>
             <div class="alert alert-success mt-3"><?php echo $success; ?></div>
+            <script>
+                window.open("./libs/wa.php?id_tipo_status_fatura=4&num_proposta=<?php echo $num_proposta; ?>", "_blank");
+            </script>
         <?php endif; ?>
     </form>
 </div>

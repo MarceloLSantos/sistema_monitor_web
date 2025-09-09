@@ -72,10 +72,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="mes_apuracao" class="form-label"><strong>MÊS DE APURAÇÃO</strong></label>
-                        <select class="form-select" id="mes_apuracao" name="mes_apuracao" disabled>
+                        <select class="form-select" id="mes_apuracao" name="mes_apuracao" value="<?php echo $proposta['mes_apuracao'] ?: $this->addMonths($proposta['data_habilitacao'], 4); ?>" disabled>
                             <?php
-                            $meses = ['JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'];
-                            $selected = $proposta['mes_apuracao'] ? $meses[$proposta['mes_apuracao'] - 1] : '';
+                            $meses = ['', 'JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'];
+                            $selected = $proposta['mes_apuracao'] ? $meses[$proposta['mes_apuracao']] : '';
                             foreach ($meses as $index => $mes): ?>
                                 <option value="<?php echo $index + 1; ?>" <?php echo $selected == $mes ? 'selected' : ''; ?>><?php echo $mes; ?></option>
                             <?php endforeach; ?>
@@ -140,15 +140,23 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-3" style="width: 150px;">ATUALIZAR</button>
-            <button type="button" class="btn btn-primary mt-3" style="width: 150px;" onclick="javascript: location.href='index.php?page=excluir_proposta&num_proposta=<?php echo $num_proposta; ?>&confirm=1'">EXCLUIR</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3" style="width: 150px;">ATUALIZAR</button>
+                <button type="button" class="btn btn-primary mt-3" style="width: 150px;" onclick="javascript: location.href='index.php?page=excluir_proposta&num_proposta=<?php echo $num_proposta; ?>&confirm=1'">EXCLUIR</button>
+            </div>
             <?php if (isset($error)): ?>
                 <div class="alert alert-danger mt-3"><?php echo $error; ?></div>
             <?php endif; ?>
-            <?php if (isset($success)): ?>
+            <?php if (isset($success) || isset($_GET['success'])): ?>
+                <?php $success = isset($success) ? $success : $_GET['success']; ?>
                 <div class="alert alert-success mt-3"><?php echo $success; ?></div>
             <?php endif; ?>
-        </form>
+            <?php if (isset($_GET['mensagem_enviada']) and $_GET['mensagem_enviada']): ?>
+                <script>
+                    window.open("./libs/wa.php?id_tipo_status_fatura=5&num_proposta=<?php echo $num_proposta; ?>", "_blank");
+                </script>
+            <?php endif; ?>
+            </form>
     <?php endif; ?>
 </div>
 <script>
@@ -166,5 +174,19 @@
         }, false);
     });
 })();
+
+// Criar eventlistener para STATUS CLIENTE = 'HABILITADO' ativar o input data_habilitacao
+document.addEventListener('DOMContentLoaded', () => {
+    const statusCliente = document.getElementById('id_status_cliente');
+    const dataHabilitacao = document.getElementById('data_habilitacao');
+    statusCliente.addEventListener('change', () => {
+        if (statusCliente.value == 3) {
+            dataHabilitacao.removeAttribute('disabled');
+        } else if (statusCliente.value < 3) {
+            dataHabilitacao.value = '';
+            dataHabilitacao.setAttribute('disabled', 'disabled');
+        }
+    });
+});
 </script>
 <?php include 'app/views/layouts/footer.php'; ?>
