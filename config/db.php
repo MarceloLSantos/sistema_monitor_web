@@ -6,9 +6,12 @@ class DB {
 
     private function __construct() {
         $host = getenv('HOST') ?: 'localhost';
-        $db = getenv('DATABASE') ?: 'sistema_monitor';
-        $user = getenv('DB_USER') ?: 'sistema_monitor';
+        $db = getenv('DATABASE') ?: 'cervej01_sistema_monitor';
+        $user = getenv('DB_USER') ?: 'cervej01_sistema_monitor';
         $pass = getenv('PASSWORD') ?: 'Sistema@monitor';
+        // $db = getenv('DATABASE') ?: 'sistema_monitor';
+        // $user = getenv('DB_USER') ?: 'sistema_monitor';
+        // $pass = getenv('PASSWORD') ?: 'Sistema@monitor';
 
         try {
             $this->pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
