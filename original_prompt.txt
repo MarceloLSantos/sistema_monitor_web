@@ -1,0 +1,20 @@
+Você é um desenvolvedor especialista em PHP orientado a objetos com MVC.
+
+Preciso que você desenvolva um sistema para controle de vendas de produtos e gestão de estoque utilizando PHP orientado objetos com MVC e banco de dados MySQL que tenha as seguintes características:
+
+- O sistema deve utilizar html com bootstrap para garantir um visual elegante e responsivo
+- Deve ter uma tela de login e uma opção de recuperação de senha
+- Deve ter três níveis de acesso (operador, coordenador e administrador)
+- Deve ter um formulário para cadastro e edição de usuários
+- Deve ter uma tela para cadastro e edição de clientes
+- Deve ter uma tela para cadastro e edição de produtos com preço de compra e preço de venda
+- Deve ter uma tela para cadastro de compra de produtos para repor abastecer estoque
+- Deve ter uma tela para cadastro de vendas que deve levar em conta a quantidade de produtos disponível em estoque
+- O sistema deve ter um Dashboard que mostre um relatório de vendas por período
+- O Dashboard também deve mostrar os resultados financeiros
+- O Dashboard também deve mostrar uma projeção de lucratividade com o estoque disponível baseado no preço de venda de cada produto menos o preço de compra
+- faça a modelagem de dados e crie o banco de dados seguindo as melhores práticas de arquitetura de dados aplicando as formas normais
+
+Após essas etapas estarem funcionando corretamente abordaremos novas funcionalidades.
+
+Pense profundamente sobre todas as etapas necessárias para projetar a arquitetura do sistema seguindo as melhores práticas de programação.

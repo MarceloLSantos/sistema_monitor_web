@@ -10,11 +10,12 @@ class DB {
         if (isset($_SERVER['HTTPS'])) {
             $db = 'cervej01_sistema_monitor';
             $user = 'cervej01_sistema_monitor';
+            $pass = getenv('PASSWORD') ?: 'Sistema@monitor';
         } else {
             $db = 'sistema_monitor';
-            $user = 'sistema_monitor';
+            $user = 'root';
+            $pass = getenv('PASSWORD') ?: '';
         }
-        $pass = getenv('PASSWORD') ?: 'Sistema@monitor';
 
         try {
             $this->pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
